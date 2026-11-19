@@ -1,0 +1,17 @@
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+
+# Secretos: NUNCA subir
+.env
+.env.*
+*.pem
+*.key
+
+# Registros
+*.log
