@@ -13,6 +13,25 @@
 const CONFIG = {
   whatsappNumber: "",
   restaurantName: "Sabor & Brasa",
+  timeZone: "America/Guayaquil", // zona horaria del restaurante (horario, "hoy" y fechas)
+};
+
+/* Fecha y hora actuales EN LA ZONA DEL RESTAURANTE (no la del visitante).
+   Así alguien que abre la web desde otro país ve el estado correcto. */
+const restaurantNow = () => {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", {
+      timeZone: CONFIG.timeZone, hourCycle: "h23",
+      year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", weekday: "short",
+    }).formatToParts(new Date()).map((p) => [p.type, p.value])
+  );
+  const days = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  return {
+    iso: `${parts.year}-${parts.month}-${parts.day}`, // ej. 2026-11-18
+    year: Number(parts.year),
+    weekday: days[parts.weekday],                       // 0 = domingo … 6 = sábado
+    minutes: Number(parts.hour) * 60 + Number(parts.minute),
+  };
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -126,17 +145,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const rows = document.querySelectorAll(".hours__table tr[data-day]");
   const status = document.getElementById("hoursStatus");
   const toMinutes = (hhmm) => { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; };
-  const now = new Date();
-  const todayRow = [...rows].find((r) => Number(r.dataset.day) === now.getDay());
+  const now = restaurantNow();
+  const todayRow = [...rows].find((r) => Number(r.dataset.day) === now.weekday);
   if (todayRow) {
     todayRow.classList.add("is-today");
     const { open, close } = todayRow.dataset;
-    const mins = now.getHours() * 60 + now.getMinutes();
-    const isOpen = open && mins >= toMinutes(open) && mins < toMinutes(close);
+    const isOpen = open && now.minutes >= toMinutes(open) && now.minutes < toMinutes(close);
     status.classList.add(isOpen ? "is-open" : "is-closed");
+    // Redacción en condicional: deja claro que es una simulación con un horario inventado
     status.textContent = isOpen
-      ? `Según el horario de ejemplo, ahora estaría abierto (hasta las ${close}).`
-      : "Según el horario de ejemplo, ahora estaría cerrado.";
+      ? `Ejemplo: con este horario, el local estaría abierto ahora (hasta las ${close}).`
+      : "Ejemplo: con este horario, el local estaría cerrado ahora.";
   }
   const isClosedDay = (weekday) => {
     const row = [...rows].find((r) => Number(r.dataset.day) === weekday);
@@ -191,10 +210,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const waState = document.getElementById("waState");
   if (waReady) { waState.textContent = "Disponible"; waState.classList.add("is-ready"); }
 
-  // Fecha mínima = hoy (en la zona horaria del visitante)
-  const pad = (n) => String(n).padStart(2, "0");
-  const todayISO = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-  fecha.min = todayISO;
+  // Fecha mínima = hoy en la zona del restaurante. Se recalcula al abrir el calendario
+  // y al enviar, por si la página quedó abierta después de medianoche.
+  const todayISO = () => restaurantNow().iso;
+  const refreshMinDate = () => { fecha.min = todayISO(); };
+  refreshMinDate();
+  fecha.addEventListener("focus", refreshMinDate);
 
   // Los campos de reserva solo aparecen (y solo son obligatorios) al elegir "Reservar una mesa"
   const syncReserva = () => {
@@ -222,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tipo: (v) => (!v ? "Elige qué necesitas." : ""),
     fecha: (v) => {
       if (!v) return "Elige la fecha de tu reserva.";
-      if (v < todayISO) return "La fecha no puede ser anterior a hoy.";
+      if (v < todayISO()) return "La fecha no puede ser anterior a hoy.";
       const [y, m, d] = v.split("-").map(Number);
       if (isClosedDay(new Date(y, m - 1, d).getDay())) return "Ese día el restaurante está cerrado (horario de ejemplo).";
       return "";
@@ -259,6 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    refreshMinDate();
     const ok = activeFields().map(validateField).every(Boolean);
     if (!ok) {
       result.hidden = true;
@@ -309,5 +331,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ===================== 10. Año actual en el pie de página ===================== */
-  document.getElementById("year").textContent = now.getFullYear();
+  document.getElementById("year").textContent = now.year;
 });
