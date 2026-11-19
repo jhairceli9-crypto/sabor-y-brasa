@@ -25,8 +25,8 @@
   <link rel="preconnect" href="https://images.unsplash.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400..600&display=swap" rel="stylesheet">
 
-  <!-- ?v=2 = versión de los archivos: súbela (v=3, v=4…) cada vez que publiques cambios en CSS o JS -->
-  <link rel="stylesheet" href="styles.css?v=2">
+  <!-- ?v=3 = versión de los archivos: súbela (v=3, v=4…) cada vez que publiques cambios en CSS o JS -->
+  <link rel="stylesheet" href="styles.css?v=3">
 
   <!-- Marca que JavaScript está activo (las animaciones solo ocultan contenido si JS funciona) -->
   <script>document.documentElement.classList.add("js");</script>
@@ -131,10 +131,7 @@
     </section>
 
     <!-- ===== 3 y 4. MENÚ + CATEGORÍAS =====
-         Para AGREGAR un plato: copia un bloque <article class="dish"> completo y cambia:
-         - data-category: entradas | principales | bebidas | postres
-         - la foto (src y srcset), el alt, el nombre, la descripción y el precio
-         - data-dish del botón y el texto oculto (sr-only) con el nombre del plato -->
+         Los platos, precios y fotos se editan en menu-data.js (no aquí). -->
     <section class="section section--alt" id="menu" aria-labelledby="menu-title">
       <div class="container">
         <header class="section__head reveal">
@@ -143,228 +140,13 @@
           <p class="section__text">Elige una categoría. Los precios son <strong>ejemplos en USD</strong>.</p>
         </header>
 
-        <div class="filters reveal" role="group" aria-label="Filtrar platos por categoría">
-          <button type="button" class="filter is-active" data-filter="todos" aria-pressed="true">Todos <span class="filter__count" data-count-for="todos"></span></button>
-          <button type="button" class="filter" data-filter="entradas" aria-pressed="false">Entradas <span class="filter__count" data-count-for="entradas"></span></button>
-          <button type="button" class="filter" data-filter="principales" aria-pressed="false">Principales <span class="filter__count" data-count-for="principales"></span></button>
-          <button type="button" class="filter" data-filter="bebidas" aria-pressed="false">Bebidas <span class="filter__count" data-count-for="bebidas"></span></button>
-          <button type="button" class="filter" data-filter="postres" aria-pressed="false">Postres <span class="filter__count" data-count-for="postres"></span></button>
-        </div>
+        <!-- Botones de categoría: los crea script.js a partir de MENU_CATEGORIES (menu-data.js) -->
+        <div class="filters reveal" id="menuFilters" role="group" aria-label="Filtrar platos por categoría"></div>
         <p class="sr-only" id="filterStatus" role="status" aria-live="polite"></p>
 
-        <div class="menu-grid">
-          <!-- ---------- ENTRADAS ---------- -->
-          <article class="dish reveal" data-category="entradas">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1769254870299-338bfd99aabd?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1769254870299-338bfd99aabd?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1769254870299-338bfd99aabd?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1769254870299-338bfd99aabd?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Empanadas doradas sobre un plato blanco" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Entrada</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Empanadas de la casa</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$6.50</p>
-              </div>
-              <p class="dish__desc">Tres empanadas horneadas de carne cortada a cuchillo, con salsa criolla.</p>
-              <button type="button" class="dish__ask" data-dish="Empanadas de la casa">Consultar<span class="sr-only"> sobre Empanadas de la casa</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="entradas">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1761315412730-a6f67208b78d?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1761315412730-a6f67208b78d?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1761315412730-a6f67208b78d?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1761315412730-a6f67208b78d?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Bruschettas con tomate fresco y hierbas" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Entrada</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Bruschetta de tomate</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$7.00</p>
-              </div>
-              <p class="dish__desc">Pan tostado a la brasa con tomate, albahaca, ajo y aceite de oliva.</p>
-              <button type="button" class="dish__ask" data-dish="Bruschetta de tomate">Consultar<span class="sr-only"> sobre Bruschetta de tomate</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="entradas">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1769830644804-0ede2ee32a62?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1769830644804-0ede2ee32a62?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1769830644804-0ede2ee32a62?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1769830644804-0ede2ee32a62?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Tartar de atún con mango, pepino y limón sobre una tostada" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Entrada</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Tartar de atún y mango</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$9.50</p>
-              </div>
-              <p class="dish__desc">Atún fresco, mango, pepino y limón sobre tostada crocante.</p>
-              <button type="button" class="dish__ask" data-dish="Tartar de atún y mango">Consultar<span class="sr-only"> sobre Tartar de atún y mango</span></button>
-            </div>
-          </article>
-
-          <!-- ---------- PLATOS PRINCIPALES ---------- -->
-          <article class="dish reveal" data-category="principales">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1588168333986-5078d3ae3976?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Corte de carne sellado, rosado por dentro, sobre hojas verdes" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Plato principal</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Lomo a la brasa</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$18.90</p>
-              </div>
-              <p class="dish__desc">300 g de lomo al carbón, al punto que prefieras, con ensalada fresca.</p>
-              <button type="button" class="dish__ask" data-dish="Lomo a la brasa">Consultar<span class="sr-only"> sobre Lomo a la brasa</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="principales">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1761712826171-609bcf1d02af?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1761712826171-609bcf1d02af?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1761712826171-609bcf1d02af?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1761712826171-609bcf1d02af?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Costillas a la barbacoa con encurtidos y salsa" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Plato principal</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Costillas BBQ</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$16.50</p>
-              </div>
-              <p class="dish__desc">Costillas de cerdo glaseadas con salsa barbacoa casera y encurtidos.</p>
-              <button type="button" class="dish__ask" data-dish="Costillas BBQ">Consultar<span class="sr-only"> sobre Costillas BBQ</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="principales">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1777891258069-454e66f8bedc?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1777891258069-454e66f8bedc?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1777891258069-454e66f8bedc?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1777891258069-454e66f8bedc?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Pollo a la parrilla con vegetales y pan plano" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Plato principal</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Pollo a la brasa</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$13.90</p>
-              </div>
-              <p class="dish__desc">Medio pollo marinado en hierbas, con vegetales asados y pan casero.</p>
-              <button type="button" class="dish__ask" data-dish="Pollo a la brasa">Consultar<span class="sr-only"> sobre Pollo a la brasa</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="principales">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Tabla con variedad de carnes a la parrilla" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Plato principal</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Parrillada para compartir</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$32.00</p>
-              </div>
-              <p class="dish__desc">Tabla para dos con lomo, chorizo, pollo y costillas, más dos acompañantes.</p>
-              <button type="button" class="dish__ask" data-dish="Parrillada para compartir">Consultar<span class="sr-only"> sobre Parrillada para compartir</span></button>
-            </div>
-          </article>
-
-          <!-- ---------- BEBIDAS ---------- -->
-          <article class="dish reveal" data-category="bebidas">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1623084921164-4a8c5c37a912?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1623084921164-4a8c5c37a912?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1623084921164-4a8c5c37a912?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1623084921164-4a8c5c37a912?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Vaso de limonada con rodajas de limón" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Bebida</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Limonada de la casa</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$3.50</p>
-              </div>
-              <p class="dish__desc">Limón recién exprimido, hierbabuena y un toque de miel.</p>
-              <button type="button" class="dish__ask" data-dish="Limonada de la casa">Consultar<span class="sr-only"> sobre Limonada de la casa</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="bebidas">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Vino tinto sirviéndose en una copa" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Bebida</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Copa de vino tinto</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$6.00</p>
-              </div>
-              <p class="dish__desc">Selección de la casa, ideal para acompañar carnes rojas.</p>
-              <button type="button" class="dish__ask" data-dish="Copa de vino tinto">Consultar<span class="sr-only"> sobre Copa de vino tinto</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="bebidas">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1762402519375-a29d7971a761?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1762402519375-a29d7971a761?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1762402519375-a29d7971a761?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1762402519375-a29d7971a761?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Capuchino con arte latte visto de cerca" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Bebida</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Capuchino</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$2.80</p>
-              </div>
-              <p class="dish__desc">Café de altura con leche texturizada, perfecto para el postre.</p>
-              <button type="button" class="dish__ask" data-dish="Capuchino">Consultar<span class="sr-only"> sobre Capuchino</span></button>
-            </div>
-          </article>
-
-          <!-- ---------- POSTRES ---------- -->
-          <article class="dish reveal" data-category="postres">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1768260732302-12822bd6427b?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1768260732302-12822bd6427b?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1768260732302-12822bd6427b?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1768260732302-12822bd6427b?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Porción de torta de chocolate con crema y cereza" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Postre</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Torta de chocolate</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$5.50</p>
-              </div>
-              <p class="dish__desc">Bizcocho húmedo de cacao con crema batida y cereza.</p>
-              <button type="button" class="dish__ask" data-dish="Torta de chocolate">Consultar<span class="sr-only"> sobre Torta de chocolate</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="postres">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1695088957420-c3b97d1f1138?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1695088957420-c3b97d1f1138?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1695088957420-c3b97d1f1138?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1695088957420-c3b97d1f1138?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Porción de cheesecake con arándanos" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Postre</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Cheesecake de arándanos</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$5.00</p>
-              </div>
-              <p class="dish__desc">Cremoso, horneado lentamente y cubierto con arándanos frescos.</p>
-              <button type="button" class="dish__ask" data-dish="Cheesecake de arándanos">Consultar<span class="sr-only"> sobre Cheesecake de arándanos</span></button>
-            </div>
-          </article>
-
-          <article class="dish reveal" data-category="postres">
-            <img class="dish__img" src="https://images.unsplash.com/photo-1792860462957-11334eabf81c?auto=format&fit=crop&w=600&h=450&q=60"
-                 srcset="https://images.unsplash.com/photo-1792860462957-11334eabf81c?auto=format&fit=crop&w=400&h=300&q=60 400w, https://images.unsplash.com/photo-1792860462957-11334eabf81c?auto=format&fit=crop&w=600&h=450&q=60 600w, https://images.unsplash.com/photo-1792860462957-11334eabf81c?auto=format&fit=crop&w=800&h=600&q=60 800w"
-                 sizes="(max-width: 600px) 92vw, (max-width: 1024px) 46vw, 370px" width="800" height="600"
-                 alt="Flan pequeño con salsa de caramelo en un plato blanco" loading="lazy" decoding="async">
-            <div class="dish__body">
-              <span class="dish__cat">Postre</span>
-              <div class="dish__head">
-                <h3 class="dish__name">Flan de caramelo</h3>
-                <p class="dish__price"><span class="sr-only">Precio de ejemplo: </span>$4.50</p>
-              </div>
-              <p class="dish__desc">Receta casera con caramelo oscuro.</p>
-              <button type="button" class="dish__ask" data-dish="Flan de caramelo">Consultar<span class="sr-only"> sobre Flan de caramelo</span></button>
-            </div>
-          </article>
-        </div>
+        <!-- Tarjetas de platos: las crea script.js a partir de MENU_ITEMS (menu-data.js) -->
+        <div class="menu-grid" id="menuGrid"></div>
+        <noscript><p class="noscript">Para ver el menú y usar los filtros, activa JavaScript en tu navegador.</p></noscript>
       </div>
     </section>
 
@@ -432,7 +214,8 @@
       <!-- Visor de fotos: la imagen se rellena desde script.js al abrirlo -->
       <dialog class="lightbox" id="lightbox" aria-label="Fotografía ampliada">
         <img class="lightbox__img" id="lightboxImg" alt="">
-        <p class="lightbox__caption" id="lightboxCaption"></p>
+        <p class="lightbox__caption" id="lightboxCaption" aria-live="polite"></p>
+        <p class="lightbox__hint">Teclado: <kbd>←</kbd> <kbd>→</kbd> cambiar de foto · <kbd>Inicio</kbd> <kbd>Fin</kbd> primera y última · <kbd>Esc</kbd> cerrar</p>
         <button type="button" class="lightbox__btn lightbox__close" id="lightboxClose" aria-label="Cerrar">✕</button>
         <button type="button" class="lightbox__btn lightbox__prev" id="lightboxPrev" aria-label="Foto anterior">‹</button>
         <button type="button" class="lightbox__btn lightbox__next" id="lightboxNext" aria-label="Foto siguiente">›</button>
@@ -496,7 +279,7 @@
         <div class="contact__info reveal">
           <p class="eyebrow">Contacto</p>
           <h2 class="section__title" id="contacto-title">Consulta <em>por WhatsApp</em></h2>
-          <p>Completa el formulario y se arma el mensaje automáticamente. En un restaurante real, solo tendrías que tocar «Enviar» en WhatsApp.</p>
+          <p>Completa el formulario y se arma el mensaje automáticamente. Con un número configurado, se abriría WhatsApp con el texto listo; nada se envía ni se reserva hasta que tú lo envíes y el restaurante te responda.</p>
           <p class="demo-note"><strong>Modo demostración:</strong> no hay número conectado, así que el mensaje se muestra en pantalla y no se envía a nadie.</p>
 
           <ul class="channels">
@@ -518,9 +301,13 @@
         <form class="form reveal" id="waForm" novalidate>
           <p class="form__legend">Los campos con <span class="req" aria-hidden="true">*</span><span class="sr-only">asterisco</span> son obligatorios.</p>
 
+          <!-- Resumen de errores: aparece al enviar con datos incompletos y se anuncia a los lectores de pantalla -->
+          <div class="form__summary" id="formSummary" role="alert" tabindex="-1" hidden></div>
+
           <div class="form__field">
             <label for="nombre">Tu nombre <span class="req" aria-hidden="true">*</span></label>
-            <input type="text" id="nombre" name="nombre" autocomplete="name" required aria-describedby="nombre-error">
+            <input type="text" id="nombre" name="nombre" autocomplete="given-name" maxlength="60" required aria-describedby="nombre-hint nombre-error">
+            <small class="form__hint" id="nombre-hint">Solo tu nombre de pila; no pedimos apellidos ni teléfono.</small>
             <small class="form__error" id="nombre-error"></small>
           </div>
 
@@ -528,7 +315,7 @@
             <label for="tipo">¿Qué necesitas? <span class="req" aria-hidden="true">*</span></label>
             <select id="tipo" name="tipo" required aria-describedby="tipo-error">
               <option value="">Elige una opción</option>
-              <option value="reserva">Reservar una mesa</option>
+              <option value="reserva">Disponibilidad de mesa</option>
               <option value="menu">Preguntar por un plato</option>
               <option value="llevar">Pedido para llevar</option>
               <option value="evento">Evento privado</option>
@@ -536,11 +323,12 @@
             <small class="form__error" id="tipo-error"></small>
           </div>
 
-          <!-- Solo se muestra si eligen "Reservar una mesa" -->
+          <!-- Solo se muestra si eligen "Disponibilidad de mesa" -->
           <div class="form__row" id="reservaFields" hidden>
             <div class="form__field">
               <label for="fecha">Fecha <span class="req" aria-hidden="true">*</span></label>
-              <input type="date" id="fecha" name="fecha" aria-describedby="fecha-error">
+              <input type="date" id="fecha" name="fecha" aria-describedby="fecha-hint fecha-error">
+              <small class="form__hint" id="fecha-hint">Hasta 60 días desde hoy. Los lunes está cerrado.</small>
               <small class="form__error" id="fecha-error"></small>
             </div>
             <div class="form__field">
@@ -560,6 +348,7 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg>
             Preparar mensaje
           </button>
+          <p class="form__privacy">🔒 Tus datos no se guardan ni se envían a ningún servidor: el mensaje se arma aquí, en tu navegador.</p>
 
           <!-- Resultado: en modo demostración muestra el mensaje en vez de abrir WhatsApp -->
           <div class="form__result" id="waResult" role="status" tabindex="-1" hidden></div>
@@ -632,11 +421,13 @@
     </div>
   </footer>
 
-  <!-- Botón flotante: lleva al formulario de consulta (no abre WhatsApp directamente) -->
-  <a href="#contacto" class="wa-float" aria-label="Ir al formulario de consulta por WhatsApp">
+  <!-- Botón flotante: sin número configurado lleva al formulario; con número válido abre WhatsApp (lo decide script.js) -->
+  <a href="#contacto" class="wa-float" id="waFloat" aria-label="Ir al formulario de consulta por WhatsApp">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-.9-.4-1.6-1.1-2-2l.8-1-1-2L9 9.5z"/></svg>
   </a>
 
-  <script src="script.js?v=2" defer></script>
+  <!-- Primero los datos del menú, después las interacciones -->
+  <script src="menu-data.js?v=3" defer></script>
+  <script src="script.js?v=3" defer></script>
 </body>
 </html>
