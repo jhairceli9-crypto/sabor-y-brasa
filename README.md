@@ -116,6 +116,28 @@ python -m http.server 8000
 2. En GitHub: **Settings → Pages → Branch: main / (root)**.
 3. Cada vez que cambies `styles.css`, `script.js` o `menu-data.js`, sube la versión en `index.html` (`?v=3` → `?v=4`) para que los visitantes no vean la copia antigua guardada.
 
+## Calidad comprobada (revisión final)
+
+Probado en Chrome de escritorio, simulando anchos de pantalla y servido en la subruta `/sabor-y-brasa/` como en GitHub Pages:
+
+- 360, 390, 768, 1024 y 1440 px: sin desplazamiento horizontal ni textos cortados.
+- Controles táctiles de al menos 44 × 44 px.
+- Recorrido completo con la tecla Tab en orden lógico; todos los controles muestran un contorno de foco con contraste de 9:1 a 16:1.
+- Contraste de 229 textos ≥ 6,9:1. El texto sobre la foto de portada se midió píxel a píxel: ≥ 4,78:1 en el peor punto.
+- Respeta «reducir movimiento»: sin desplazamiento suave, sin animaciones y con el contenido visible de inmediato.
+- 21 imágenes con texto alternativo propio, tamaño reservado (`width`/`height`) y versiones por tamaño de pantalla (`srcset`); todas menos la portada cargan a medida que se hace scroll.
+- Sin errores en la consola.
+
+## Limitaciones conocidas
+
+- **Restaurante ficticio:** no hay dirección, teléfono, correo, redes ni mapa reales. Esos datos están marcados como «Por configurar».
+- **WhatsApp:** está en modo demostración hasta que se configure un número real. Aun configurado, solo **prepara** el mensaje: no envía nada automáticamente ni confirma reservas.
+- **Sin servidor:** no hay base de datos, reservas en línea, pagos ni panel de administración.
+- **El menú necesita JavaScript:** si está desactivado, se muestra un aviso en lugar de los platos.
+- **Fotos de Unsplash:** se cargan desde su servidor; si un autor retira una foto, habría que reemplazarla. Para un cliente real conviene usar fotos propias en una carpeta `img/`.
+- **Fuentes y fotos externas:** Google Fonts y Unsplash reciben la dirección IP del visitante al cargar sus archivos, como en cualquier web que los use.
+- **No probado todavía:** celulares y tablets físicos, Safari en iPhone, lectores de pantalla (NVDA, VoiceOver) ni Lighthouse. Ver «Pruebas manuales recomendadas».
+
 ## Créditos
 
 Fotografías de [Unsplash](https://unsplash.com/license) (licencia gratuita, permite uso comercial). La lista completa de autores está en el pie de página del sitio.

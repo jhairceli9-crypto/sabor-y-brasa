@@ -213,6 +213,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /** Abre o cierra el menú; al abrir lleva el foco al primer enlace, al cerrar con teclado lo devuelve al botón. */
   const setMenu = (open, returnFocus = false) => {
+    // El panel empieza justo debajo del encabezado, para que el botón ✕ no tape el primer enlace
+    if (open) nav.style.setProperty("--nav-top", `${Math.round(header.getBoundingClientRect().bottom)}px`);
     nav.classList.toggle("is-open", open);
     syncInert();
     backdrop.classList.toggle("is-visible", open);

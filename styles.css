@@ -183,7 +183,8 @@ strong { font-weight: 600; color: var(--cream); }
 .hero__overlay {
   position: absolute; inset: 0; z-index: -1;
   background:
-    linear-gradient(90deg, rgba(17, 17, 17, .94) 0%, rgba(17, 17, 17, .72) 48%, rgba(17, 17, 17, .3) 100%),
+    /* Más oscuro en la mitad izquierda (donde va el texto) para asegurar contraste ≥ 4,5:1 */
+    linear-gradient(90deg, rgba(17, 17, 17, .95) 0%, rgba(17, 17, 17, .88) 48%, rgba(17, 17, 17, .35) 100%),
     linear-gradient(0deg, var(--coal) 0%, transparent 28%);
 }
 .hero__title { font-size: clamp(2.9rem, 5.6vw + 1rem, 5.8rem); max-width: 12ch; margin-bottom: 1.4rem; }
@@ -366,8 +367,9 @@ strong { font-weight: 600; color: var(--cream); }
 }
 .form textarea { resize: vertical; min-height: 110px; }
 .form input:hover, .form select:hover, .form textarea:hover { border-color: var(--cream-soft); }
+/* Foco de los campos: contorno igual al resto de la web (10:1) + borde dorado */
 .form input:focus-visible, .form select:focus-visible, .form textarea:focus-visible {
-  outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201, 164, 106, .35);
+  outline: 2px solid var(--gold-light); outline-offset: 2px; border-color: var(--gold);
 }
 .form__field.has-error input, .form__field.has-error select { border-color: var(--danger); border-width: 2px; }
 .form__error { min-height: 1.1em; font-size: .84rem; color: var(--danger); }
@@ -447,7 +449,8 @@ strong { font-weight: 600; color: var(--cream); }
   .nav {
     position: fixed; inset: 0 0 0 auto; z-index: 125; width: min(340px, 86vw); margin: 0;
     flex-direction: column; align-items: stretch; gap: 1.5rem;
-    padding: calc(var(--header-h) + 1rem) 1.5rem 2rem; overflow-y: auto; overscroll-behavior: contain;
+    /* --nav-top lo calcula script.js: el borde inferior del encabezado (cambia si la barra DEMO está visible) */
+    padding: calc(var(--nav-top, var(--header-h)) + 1rem) 1.5rem 2rem; overflow-y: auto; overscroll-behavior: contain;
     background: var(--coal-deep); border-left: 1px solid var(--line);
     transform: translateX(100%);
     transition: transform .35s var(--ease), box-shadow .35s;
@@ -474,7 +477,8 @@ strong { font-weight: 600; color: var(--cream); }
   .gallery { grid-template-columns: repeat(2, 1fr); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
   .footer__brand { grid-column: 1 / -1; }
-  .hero__overlay { background: linear-gradient(0deg, var(--coal) 5%, rgba(17, 17, 17, .8) 55%, rgba(17, 17, 17, .6) 100%); }
+  /* Capa más oscura arriba: el texto pequeño dorado mantiene contraste ≥ 4,5:1 sobre las llamas de la foto */
+  .hero__overlay { background: linear-gradient(0deg, var(--coal) 5%, rgba(17, 17, 17, .84) 55%, rgba(17, 17, 17, .8) 100%); }
 }
 
 /* Celulares (≤ 600 px) */
@@ -522,6 +526,7 @@ strong { font-weight: 600; color: var(--cream); }
   .dish:hover, .btn:hover, .wa-float:hover { transform: none; }
   .dish:hover .dish__img, .gallery__btn:hover img { transform: none; }
   .credits__list a, .footer__col a, .footer__col span { min-height: 44px; display: inline-flex; align-items: center; }
+  .footer__col a { min-width: 44px; } /* enlaces cortos como «Menú» también miden 44 px de ancho */
   .footer__col { gap: 0; }
   .dish:active { transform: scale(.99); }
   .btn:active { transform: scale(.97); }
